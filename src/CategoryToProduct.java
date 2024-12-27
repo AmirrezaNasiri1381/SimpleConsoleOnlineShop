@@ -1,9 +1,13 @@
 public class CategoryToProduct {
-    private int categoryId;
-    private int productId;
+
 
     private Categories categories;
     private Product product;
+
+    public CategoryToProduct(Categories categories, Product product) {
+        this.categories = categories;
+        this.product = product;
+    }
 
     public Categories getCategories() {
         return categories;
@@ -21,19 +25,5 @@ public class CategoryToProduct {
         this.product = product;
     }
 
-    public int getCategoryId() {
-        return categoryId;
-    }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
 }

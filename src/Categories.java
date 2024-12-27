@@ -1,8 +1,12 @@
 public class Categories {
     private  int id;
     private String Name;
-
     private CategoryToProduct[] categoryToProducts;
+
+    public Categories(int id, String name) {
+        this.id = id;
+        Name = name;
+    }
 
     public CategoryToProduct[] getCategoryToProducts() {
         return categoryToProducts;
