@@ -1,32 +1,66 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class Shop {
 
-    private static Product[] products = new Product[5];
-    public static Categories[] categories = new Categories[3];
-    public static CategoryToProduct[] categoryToProducts = new CategoryToProduct[5];
-    private static Customer[] customers = new Customer[3];
-    private static Admin[] admins = new Admin[3];
-    private static String[] shoppingList;
-    private static String[] finalList;
+    private static List<Product> products = new ArrayList<>();
+    public static List<Categories> categories = new ArrayList<>();
+    public static List<CategoryToProduct> categoryToProducts = new ArrayList<>();
+    private static List<Customer> customers = new ArrayList<>();
+    private static List<Admin> admins = new ArrayList<>();
+    private static HashSet<String> shoppingList = new HashSet<>();
+    private static HashSet<String> finalList = new HashSet<>();
 
-    public static void setShoppingList(String[] shoppingList) {
+    public static List<Product> getProducts() {
+        return products;
+    }
+
+    public static List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public static void setCustomers(List<Customer> customers) {
+        Shop.customers = customers;
+    }
+
+    public static List<Admin> getAdmins() {
+        return admins;
+    }
+
+    public static void setAdmins(List<Admin> admins) {
+        Shop.admins = admins;
+    }
+
+    public static List<Categories> getCategories() {
+        return categories;
+    }
+
+    public static void setCategories(List<Categories> categories) {
+        Shop.categories = categories;
+    }
+
+    public static List<CategoryToProduct> getCategoryToProducts() {
+        return categoryToProducts;
+    }
+
+    public static void setCategoryToProducts(List<CategoryToProduct> categoryToProducts) {
+        Shop.categoryToProducts = categoryToProducts;
+    }
+
+    public static void setShoppingList(HashSet<String> shoppingList) {
         Shop.shoppingList = shoppingList;
     }
 
     public static void initializeSeedData() {
-        // Seed data for Admins
-        admins[0] = new Admin("admin1", "1234");
-        admins[1] = new Admin("admin2", "5678");
-        admins[2] = new Admin("admin3", "91011");
+        admins.add(new Admin("admin1", "1234"));
+        admins.add(new Admin("admin2", "5678"));
+        admins.add(new Admin("admin3", "91011"));
 
-        // Seed data for Customers
-        customers[0] = new Customer("user1", "pass1");
-        customers[1] = new Customer("user2", "pass2");
-        customers[2] = new Customer("user3", "pass3");
+        customers.add(new Customer("user1", "pass1"));
+        customers.add(new Customer("user2", "pass2"));
+        customers.add(new Customer("user3", "pass3"));
     }
 
-    private static Product addProduct(String name, int price, CategoryToProduct[] categoryToProducts) {
+    private static Product addProduct(String name, int price, CategoryToProduct categoryToProducts) {
         Product product = new Product();
         try {
             product.setName(name);
@@ -38,84 +72,116 @@ public class Shop {
         } catch (NegativePriceException e) {
             throw new RuntimeException(e);
         }
-        product.setCategoryToProducts(categoryToProducts);
+        Product.setCategoryToProducts((List<CategoryToProduct>) categoryToProducts);
         return product;
     }
 
-    public static Categories[] initialCategories() {
-        categories[0] = new Categories(1, "Fruits");
-        categories[1] = new Categories(2, "Furniture");
-        categories[2] = new Categories(3, "Electronics");
-        return categories;
+    public static ArrayList<Categories> initialCategories() {
+        categories.add(new Categories(1, "Fruits"));
+        categories.add(new Categories(2, "Furniture"));
+        categories.add(new Categories(3, "Electronics"));
+        return (ArrayList<Categories>) categories;
     }
 
-    public static CategoryToProduct[] initialCategoryToProduct() {
-        Categories[] categories1 = initialCategories();
-        categoryToProducts[0] = new CategoryToProduct(categories1[0], products[0]);  // apple -> Fruits
-        categoryToProducts[1] = new CategoryToProduct(categories1[1], products[1]);  // rug -> Furniture
-        categoryToProducts[2] = new CategoryToProduct(categories1[2], products[2]);  // laptop -> Electronics
-        categoryToProducts[3] = new CategoryToProduct(categories1[2], products[3]);  // TV -> Electronics
-        categoryToProducts[4] = new CategoryToProduct(categories1[2], products[4]);  // Phone -> Electronics
 
-        return categoryToProducts;
+    public static ArrayList<CategoryToProduct> initialCategoryToProduct() {
+
+        categoryToProducts.add(new CategoryToProduct(categories.get(0), products.get(0)));  // apple -> Fruits
+        categoryToProducts.add(new CategoryToProduct(categories.get(1), products.get(1)));  // rug -> Furniture
+        categoryToProducts.add(new CategoryToProduct(categories.get(2), products.get(2)));  // laptop -> Electronics
+        categoryToProducts.add(new CategoryToProduct(categories.get(2), products.get(3)));  // TV -> Electronics
+        categoryToProducts.add(new CategoryToProduct(categories.get(2), products.get(4)));  // Phone -> Electronics
+
+        return (ArrayList<CategoryToProduct>) categoryToProducts;
     }
 
-    public static Product[] initialProductList() {
-        initialCategoryToProduct();
-        products[0] = addProduct("apple", 100, new CategoryToProduct[]{categoryToProducts[0]});
-        products[1] = addProduct("rug", 500, new CategoryToProduct[]{categoryToProducts[1]});
-        products[2] = addProduct("laptop", 1500, new CategoryToProduct[]{categoryToProducts[2]});
-        products[3] = addProduct("TV", 2000, new CategoryToProduct[]{categoryToProducts[2]});
-        products[4] = addProduct("Phone", 1200, new CategoryToProduct[]{categoryToProducts[2]});
-        return products;
+    public static ArrayList<Product> initialProductList() {
+
+        products.add(addProduct("apple", 100,categoryToProducts.get(0)));
+        products.add(addProduct("rug", 500,categoryToProducts.get(1)));
+        products.add(addProduct("laptop", 1500,categoryToProducts.get(2)));
+        products.add(addProduct("TV", 2000, categoryToProducts.get(3)));
+        products.add(addProduct("Phone", 1200, categoryToProducts.get(4)));
+        return (ArrayList<Product>) products;
     }
+
+
 
     public void showCategories() {
-        Categories[] categories1 = initialCategories();
-        for (int i = 1; i < categories1.length; i++) {
-            System.out.println( "Category Number "+i + " is : " + categories1[i].getName());
+        if (categories.isEmpty()) {
+            initialCategories();
+        }
+        int index = 1;
+        for (Categories category : categories) {
+            System.out.println("Category Number " + index + " is : " + category.getName());
+            index++;
         }
     }
 
-    public static Product[] getProducts() {
-        return products;
-    }
-
-    public static void setProducts(Product[] products) {
+    public static void setProducts(List<Product> products) {
         Shop.products = products;
     }
 
+
+
     public void ShowProduct() {
         products = initialProductList();
-        for (int i = 0; i < products.length; i++) {
 
-            System.out.print(i + 1 + " : " + products[i].getName() + " price is : " + products[i].getPrice() + " Category is : ");
+        // پیمایش لیست محصولات
+        for (int i = 0; i < products.size(); i++) {
 
-            Arrays.stream(products[i].getCategoryToProducts())
-                    .map(categoryToProduct -> categoryToProduct.getCategories().getName())
-                    .distinct()
-                    .forEach(category -> System.out.print(category + " "));
+            // چاپ نام محصول و قیمت
+            System.out.print(i + 1 + " : " + products.get(i).getName() + " price is : " + products.get(i).getPrice() + " Category is : ");
 
+            // دسترسی به دسته‌بندی‌های هر محصول و چاپ آنها
+            List<CategoryToProduct> categoryToProducts = Product.getCategoryToProducts();
+
+            for (CategoryToProduct categoryToProduct : categoryToProducts) {
+                // چک کردن اینکه آیا categories مقداردهی شده است
+                if (categoryToProduct.getCategories() != null) {
+                    System.out.print(categoryToProduct.getCategories().getName() + " ");
+                } else {
+                    System.out.print("No category available ");
+                }
+            }
+
+            // چاپ یک خط جدید بعد از هر محصول
             System.out.println();
         }
     }
+
     public void ShowProductsByCategory(String categoryName) {
-        products = initialProductList();
+//        products = initialProductList();
+        ArrayList<Product> products = initialProductList();
         boolean found = false;
 
-        for (int i = 0; i < products.length; i++) {
+        // پیمایش لیست محصولات
+        for (int i = 0; i < products.size(); i++) {
 
-            boolean isInCategory = Arrays.stream(products[i].getCategoryToProducts())
-                    .map(categoryToProduct -> categoryToProduct.getCategories().getName())
-                    .anyMatch(category -> category.equals(categoryName));
+            boolean isInCategory = false;
+
+            // پیمایش دسته‌بندی‌های هر محصول
+            List<CategoryToProduct> categoryToProducts = Product.getCategoryToProducts();
+
+            for (CategoryToProduct categoryToProduct : categoryToProducts) {
+                // چک کردن اینکه آیا دسته‌بندی با نام مورد نظر تطابق دارد
+                if (categoryToProduct.getCategories() != null &&
+                        categoryToProduct.getCategories().getName().equals(categoryName)) {
+                    isInCategory = true;
+                    break;  // اگر دسته‌بندی پیدا شد، نیاز به ادامه جستجو نیست
+                }
+            }
 
             if (isInCategory) {
-                System.out.print(i + 1 + " : " + products[i].getName() + " price is : " + products[i].getPrice() + " Category is : ");
+                // چاپ اطلاعات محصول
+                System.out.print(i + 1 + " : " + products.get(i).getName() + " price is : " + products.get(i).getPrice() + " Category is : ");
 
-                Arrays.stream(products[i].getCategoryToProducts())
-                        .map(categoryToProduct -> categoryToProduct.getCategories().getName())
-                        .distinct()
-                        .forEach(category -> System.out.print(category + " "));
+                // چاپ تمامی دسته‌بندی‌های محصول
+                for (CategoryToProduct categoryToProduct : categoryToProducts) {
+                    if (categoryToProduct.getCategories() != null) {
+                        System.out.print(categoryToProduct.getCategories().getName() + " ");
+                    }
+                }
 
                 System.out.println();
                 found = true;
@@ -126,6 +192,7 @@ public class Shop {
             System.out.println("No products found for category: " + categoryName);
         }
     }
+
 
     public static int getNumberOfProduct() {
         GetInput userInput = new GetInput();
@@ -139,29 +206,14 @@ public class Shop {
         }
     }
 
-    public static Admin[] getAdmins() {
-        return admins;
-    }
-
-    public static Customer[] getCustomers() {
-        return customers;
-    }
     public void finalShoppingList() {
-        finalList = new String[shoppingList.length];
-        String[] removeRepeatedMembers = removeRepeatedMember();
-        boolean found = false;
-        for (int i = 0; i < removeRepeatedMembers.length; i++) {
+        finalList.clear();
+        for (String item : shoppingList) {
             for (Product product : products) {
-                if (removeRepeatedMembers[i] == null) {
+                if (item.equalsIgnoreCase(product.getName())) {
+                    finalList.add(product.getName());
                     break;
                 }
-                if (removeRepeatedMembers[i].equalsIgnoreCase(product.getName())) {
-                    finalList[i] = product.getName();
-                    found = true;
-                }
-            }
-            if (!found) {
-                System.out.println("product " + shoppingList[i] + " is not in list");
             }
         }
         printShoppingList(finalList);
@@ -169,44 +221,42 @@ public class Shop {
 
     public void calculateTotalPrice() {
         int totalPrice = 0;
-        for (String finalList : finalList) {
+        for (String item : finalList) {
             for (Product product : products) {
-                if (product.getName().equalsIgnoreCase(finalList)) {
+                if (product.getName().equalsIgnoreCase(item)) {
                     totalPrice += product.getPrice();
                 }
             }
         }
-        System.out.println("TotalPrice Is :" + totalPrice);
+        System.out.println("Total Price Is: " + totalPrice);
     }
 
 
-    public static String[] removeRepeatedMember() {
-
-        for (int i = 0; i < shoppingList.length - 1; i++) {
-            if (shoppingList[i] == null) {
-                break;
-            }
-            for (int j = i + 1; j < shoppingList.length; j++) {
-                if (shoppingList[i].equalsIgnoreCase(shoppingList[j])) {
-                    //move element for removing
-                    System.out.println("element " + shoppingList[i] + " was repeated");
-                    for (int k = j; k < shoppingList.length - 1; k++) {
-                        shoppingList[k] = shoppingList[k + 1];
-                    }
-                    shoppingList[shoppingList.length - 1] = "";
-                    j--;
-                }
-            }
-        }
-        return shoppingList;
-    }
-
-
+//    public static String[] removeRepeatedMember() {
+//
+//        for (int i = 0; i < shoppingList.length - 1; i++) {
+//            if (shoppingList[i] == null) {
+//                break;
+//            }
+//            for (int j = i + 1; j < shoppingList.length; j++) {
+//                if (shoppingList[i].equalsIgnoreCase(shoppingList[j])) {
+//                    //move element for removing
+//                    System.out.println("element " + shoppingList[i] + " was repeated");
+//                    for (int k = j; k < shoppingList.length - 1; k++) {
+//                        shoppingList[k] = shoppingList[k + 1];
+//                    }
+//                    shoppingList[shoppingList.length - 1] = "";
+//                    j--;
+//                }
+//            }
+//        }
+//        return shoppingList;
+//    }
 
 
-    public static void printShoppingList(String[] productList) {
-        String shopList = Arrays.toString(productList);
-        System.out.println("Your Final List Is :" + shopList);
 
+
+    public static void printShoppingList(Set<String> productList) {
+        System.out.println("Your Final List Is: " + productList);
     }
 }
