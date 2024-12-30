@@ -73,7 +73,7 @@ public class Customer implements User {
 
     @Override
     public void register(String username, String password) {
-        Shop.initializeSeedData();
+//        Shop.initializeSeedData();
         List<Customer> customers = Shop.getCustomers();
         if (customerCount < customers.size()) {
             customers.set(customerCount++, new Customer(name, password));
@@ -111,7 +111,7 @@ public class Customer implements User {
 
     public Categories getCategoryByInput() {
         Scanner scanner = new Scanner(System.in);
-        ArrayList<Categories> categories1 = Shop.initialCategories();
+        ArrayList<Categories> categories1 = (ArrayList<Categories>) Shop.getCategories();
 
         System.out.println("Enter category number or category name: ");
         String input = scanner.nextLine();  // ورودی کاربر
