@@ -60,7 +60,7 @@ public class Customer implements User {
 
     @Override
     public boolean login(String username, String password) throws InvalidLoginException {
-        Shop.initializeSeedData();
+
         List<Customer> customers = Shop.getCustomers();
         for (int i = 0; i < customers.size(); i++) {
             if (customers.get(i).name.equals(username) && customers.get(i).password.equals(password)) {
