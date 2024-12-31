@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Customer implements User {
     private String name;
@@ -61,10 +60,10 @@ public class Customer implements User {
 
     @Override
     public boolean login(String username, String password) throws InvalidLoginException {
-        Shop.initializeSeedData();
-        Customer[] customers = Shop.getCustomers();
-        for (int i = 0; i < customers.length; i++) {
-            if (customers[i].name.equals(username) && customers[i].password.equals(password)) {
+
+        List<Customer> customers = Shop.getCustomers();
+        for (int i = 0; i < customers.size(); i++) {
+            if (customers.get(i).name.equals(username) && customers.get(i).password.equals(password)) {
                 System.out.println("Customer login successful.");
                 return true;
             }
@@ -74,10 +73,10 @@ public class Customer implements User {
 
     @Override
     public void register(String username, String password) {
-        Shop.initializeSeedData();
-        Customer[] customers = Shop.getCustomers();
-        if (customerCount < customers.length) {
-            customers[customerCount++] = new Customer(name, password);
+//        Shop.initializeSeedData();
+        List<Customer> customers = Shop.getCustomers();
+        if (customerCount < customers.size()) {
+            customers.set(customerCount++, new Customer(name, password));
             System.out.println("Customer registered successfully.");
         } else {
             System.out.println("Customer list is full.");
@@ -86,10 +85,9 @@ public class Customer implements User {
 
     public void selectProduct() {
         GetInput userInput = new GetInput();
-        String[] product;
+        HashSet<String> productSet = new HashSet<>();
         int numberOfProduct = Shop.getNumberOfProduct();
-        product = new String[numberOfProduct];
-        for (int i = 0; i < product.length; i++) {
+        for (int i = 0; i < numberOfProduct; i++) {
             while (true) {
                 try {
                     System.out.println("Number " + (i + 1) + " : " + "Please Enter Your Product Name");
@@ -101,19 +99,19 @@ public class Customer implements User {
                         System.out.println("Your choosing finished.");
                         break;
                     }
-                    product[i] = input;
+                    productSet.add(input);
                     break;
                 } catch (InvalidProductNameException e) {
                     System.out.println(e.getMessage());
                 }
             }
         }
-        Shop.setShoppingList(product);
+        Shop.setShoppingList(productSet);
     }
 
     public Categories getCategoryByInput() {
         Scanner scanner = new Scanner(System.in);
-        Categories[] categories1 = Shop.initialCategories();
+        ArrayList<Categories> categories1 = (ArrayList<Categories>) Shop.getCategories();
 
         System.out.println("Enter category number or category name: ");
         String input = scanner.nextLine();  // ورودی کاربر
@@ -121,8 +119,8 @@ public class Customer implements User {
 
         try {
             int categoryNumber = Integer.parseInt(input);  // اگر ورودی عدد باشد
-            if (categoryNumber > 0 && categoryNumber <= categories1.length) {
-                return categories1[categoryNumber - 1];  // برگرداندن دسته‌بندی بر اساس شماره
+            if (categoryNumber > 0 && categoryNumber <= categories1.size()) {
+                return categories1.get(categoryNumber - 1);  // برگرداندن دسته‌بندی بر اساس شماره
             } else {
                 System.out.println("Invalid category number.");
                 return null;

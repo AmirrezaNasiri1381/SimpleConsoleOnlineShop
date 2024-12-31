@@ -1,18 +1,21 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Categories {
     private  int id;
     private String Name;
-    private CategoryToProduct[] categoryToProducts;
+    public List<CategoryToProduct> categoryToProducts = new ArrayList<>();
 
     public Categories(int id, String name) {
         this.id = id;
         Name = name;
     }
 
-    public CategoryToProduct[] getCategoryToProducts() {
+    public List<CategoryToProduct> getCategoryToProducts() {
         return categoryToProducts;
     }
 
-    public void setCategoryToProducts(CategoryToProduct[] categoryToProducts) {
+    public void setCategoryToProducts(List<CategoryToProduct> categoryToProducts) {
         this.categoryToProducts = categoryToProducts;
     }
 

@@ -1,23 +1,26 @@
 public class Main {
     public static void main(String[] args) {
+
+
+
         GetInput inputUser = new GetInput();
         Shop shop = new Shop();
-        shop.initializeSeedData();
+        Shop.initializeSeedData();
         System.out.println("Select user type: \n1. Admin \n2. Customer");
-        int choice = 0;
+       int choice = 0;
         try {
             choice = inputUser.GetNumberInput();
         } catch (InvalidInputException e) {
             throw new RuntimeException(e);
-        }
-        Main main = new Main();
+       }
+       Main main = new Main();
         if (choice == 1) {
             main.handelAdmin();
         } else if (choice == 2) {
             main.handelCustomer();
         } else {
-            System.out.println("Invalid selection!");
-        }
+           System.out.println("Invalid selection!");
+       }
     }
 
     public void handelAdmin() {
@@ -47,7 +50,7 @@ public class Main {
     public void handelCustomer() {
         GetInput inputUser = new GetInput();
         Shop shop = new Shop();
-        shop.initializeSeedData();
+//        shop.initializeSeedData();
         System.out.print("Enter Customer username: ");
         String username = inputUser.GetStringInput();
         System.out.print("Enter Customer password: ");

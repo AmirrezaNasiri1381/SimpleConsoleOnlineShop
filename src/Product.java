@@ -1,14 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Product {
     private String name;
     private int price;
-    private CategoryToProduct[] categoryToProducts;
+    public static List<CategoryToProduct> categoryToProducts = new ArrayList<>();
 
-    public CategoryToProduct[] getCategoryToProducts() {
+    public static List<CategoryToProduct> getCategoryToProducts() {
         return categoryToProducts;
     }
 
-    public void setCategoryToProducts(CategoryToProduct[] categoryToProducts) {
-        this.categoryToProducts = categoryToProducts;
+    public static void setCategoryToProducts(List<CategoryToProduct> categoryToProducts) {
+        Product.categoryToProducts = categoryToProducts;
     }
 
     public String getName() {
