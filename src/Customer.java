@@ -11,34 +11,18 @@ public class Customer implements User {
     public Customer() {
     }
 
-    public Customer(String name, Integer phoneNumber) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-    }
 
     public Customer(String name, String password) {
         this.name = name;
         this.password = password;
     }
-    public String getPassword() {
-        return password;
-    }
+
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public static int getCustomerCount() {
-        return customerCount;
-    }
 
-    public static void setCustomerCount(int customerCount) {
-        Customer.customerCount = customerCount;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     public void setName(String name) throws InvalidProductException {
         if (name == null || name.isEmpty()) {
@@ -47,9 +31,6 @@ public class Customer implements User {
         this.name = name;
     }
 
-    public Integer getPhoneNumber() {
-        return phoneNumber;
-    }
 
     public void setPhoneNumber(Integer phoneNumber) throws InvalidPhoneNumberException {
         if (phoneNumber == null || phoneNumber.toString().length() != 4) {
@@ -62,8 +43,8 @@ public class Customer implements User {
     public boolean login(String username, String password) throws InvalidLoginException {
 
         List<Customer> customers = Shop.getCustomers();
-        for (int i = 0; i < customers.size(); i++) {
-            if (customers.get(i).name.equals(username) && customers.get(i).password.equals(password)) {
+        for (Customer customer : customers) {
+            if (customer.name.equals(username) && customer.password.equals(password)) {
                 System.out.println("Customer login successful.");
                 return true;
             }
@@ -112,10 +93,8 @@ public class Customer implements User {
     public Categories getCategoryByInput() {
         Scanner scanner = new Scanner(System.in);
         ArrayList<Categories> categories1 = (ArrayList<Categories>) Shop.getCategories();
-
         System.out.println("Enter category number or category name: ");
         String input = scanner.nextLine();  // ورودی کاربر
-
 
         try {
             int categoryNumber = Integer.parseInt(input);  // اگر ورودی عدد باشد

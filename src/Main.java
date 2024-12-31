@@ -1,26 +1,30 @@
 public class Main {
     public static void main(String[] args) {
 
+        Main main = new Main();
+        main.start();
 
+    }
+
+    public void start() {
 
         GetInput inputUser = new GetInput();
-        Shop shop = new Shop();
         Shop.initializeSeedData();
         System.out.println("Select user type: \n1. Admin \n2. Customer");
-       int choice = 0;
+        int choice = 0;
         try {
             choice = inputUser.GetNumberInput();
         } catch (InvalidInputException e) {
             throw new RuntimeException(e);
-       }
-       Main main = new Main();
+        }
+        Main main = new Main();
         if (choice == 1) {
             main.handelAdmin();
         } else if (choice == 2) {
             main.handelCustomer();
         } else {
-           System.out.println("Invalid selection!");
-       }
+            System.out.println("Invalid selection!");
+        }
     }
 
     public void handelAdmin() {
@@ -88,7 +92,7 @@ public class Main {
         String newUsername = inputUser.GetStringInput();
         System.out.print("Enter a new Admin password: ");
         String newPassword = inputUser.GetStringInput();
-        Admin newAdmin = new Admin(newUsername,newPassword);
+        Admin newAdmin = new Admin(newUsername, newPassword);
         newAdmin.register(newUsername, newPassword);
         System.out.println("Admin registration successful! Welcome, " + newUsername);
     }
@@ -102,11 +106,14 @@ public class Main {
         Customer newCustomer = new Customer();
         try {
             newCustomer.setName(newUsername);
+
         } catch (InvalidProductException e) {
             throw new RuntimeException(e);
         }
         newCustomer.setPassword(newPassword);
         newCustomer.register(newUsername, newPassword);
         System.out.println("Customer registration successful! Welcome, " + newUsername);
+        Main main = new Main();
+        main.start();
     }
 }

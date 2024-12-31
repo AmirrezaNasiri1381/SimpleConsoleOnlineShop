@@ -1,17 +1,19 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Product {
     private String name;
     private int price;
-    public static List<CategoryToProduct> categoryToProducts = new ArrayList<>();
+    private static Map<Categories,Product> categoryToProductMap = new HashMap<>();
 
-    public static List<CategoryToProduct> getCategoryToProducts() {
-        return categoryToProducts;
+    public static Map<Categories, Product> getCategoryToProductMap() {
+        return categoryToProductMap;
     }
 
-    public static void setCategoryToProducts(List<CategoryToProduct> categoryToProducts) {
-        Product.categoryToProducts = categoryToProducts;
+    public static void setCategoryToProductMap(Map<Categories, Product> categoryToProductMap) {
+        Product.categoryToProductMap = categoryToProductMap;
     }
 
     public String getName() {
